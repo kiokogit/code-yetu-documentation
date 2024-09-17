@@ -1,0 +1,114 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Courses API",
+		"description": "Courses and classes api documentation"
+	},
+	"paths": {
+		"/workflow-api/{flow_type}/{pk}": {
+			"parameters": [
+				{
+					"name": "flow_type",
+					"description": "Workflow type and the object to be through a workflow",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"$ref": "#/components/schemas/class"
+					}
+				},
+				{
+					"name": "pk",
+					"description": "The unique identifier of the flow instance. 'initialize' if initialization stage",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"$ref": "#/components/schemas/pk"
+					}
+				}
+			],
+			"post": {
+				"summary": "Process instance through workflow process as defined",
+				"responses": {
+					"200": {
+						"description": "The workflow actions at that stage have been run successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/WorkflowInstance"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "There was an error running tasks. Readable error message",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Unexpected error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"class": {
+				"description": "This is the name of the workflow, object",
+				"type": "string"
+			},
+			"pk": {
+				"description": "The workflow object id. 'initialize' should be used where no object created yet",
+				"type": "string"
+			},
+			"SuccessResponse": {
+				"type": "object",
+				"required": [
+					"details"
+				],
+				"properties": {
+					"details": {
+						"type": "string"
+					}
+				}
+			},
+			"Error": {
+				"type": "object",
+				"required": [
+					"details"
+				],
+				"properties": {
+					"details": {
+						"description": "A human readable error message",
+						"type": "string"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"Authorization": {
+				"type": "apiKey",
+				"in": "header",
+				"name": "Authorization"
+			}
+		}
+	},
+	"security": [
+		{
+			"Authorization": []
+		}
+	]
+}
