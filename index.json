@@ -62,10 +62,110 @@
 					}
 				}
 			}
+		},
+		"/courses-api/courses/{pk}": {
+			"parameters": [
+				{
+					"name": "pk",
+					"description": "Course id",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"$ref": "#/components/schemas/pk"
+					}
+				}
+			],
+			"get": {
+				"summary": "Get course details, detail view",
+				"responses": {
+					"200": {
+						"description": "The result is highly filtered according to the logged in user role",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CourseInstance"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid pk provided",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Unexpected error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/courses-api/actions/new": {
+			"parameters": [],
+			"post": {
+				"summary": "Create a new course instance",
+				"requestBody":{
+					"content": {
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Course created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CourseInstance"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid pk provided",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Unexpected error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
 		"schemas": {
+			"CourseInstance": {
+				"description": "Course details",
+				"type":"object",
+				"required": [
+					"id",
+					"name",
+					"level",
+					"average_rating"
+				]
+			},
 			"class": {
 				"description": "This is the name of the workflow, object",
 				"type": "string"
